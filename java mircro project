@@ -1,0 +1,97 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Trip {
+    private String tripName;
+    private double distance; 
+    private double fuelUsed; 
+    private double fuelPrice; 
+
+    public Trip(String tripName, double distance, double fuelUsed, double fuelPrice) {
+        this.tripName = tripName;
+        this.distance = distance;
+        this.fuelUsed = fuelUsed;
+        this.fuelPrice = fuelPrice;
+    }
+
+    public String getTripName() {
+        return tripName;
+    }
+
+    public double getMileage() {
+        return distance / fuelUsed; 
+    }
+
+    public double getFuelPerKilometer() {
+        return fuelUsed / distance; 
+    }
+
+    public double getPricePerKilometer() {
+        return (fuelUsed * fuelPrice) / distance;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Trip: %s\nDistance: %.2f km\nFuel Used: %.2f liters\nFuel Price: %.2f/unit\n" +
+                "Mileage: %.2f km/l\nFuel Per Kilometer: %.2f l/km\nPrice Per Kilometer: %.2f/unit\n",
+                tripName, distance, fuelUsed, fuelPrice, getMileage(), getFuelPerKilometer(), getPricePerKilometer());
+    }
+}
+
+public class MileageCalculatorApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Trip> trips = new ArrayList<>();
+
+        while (true) {
+            System.out.println("Mileage and Fuel Consumption Calculator");
+            System.out.println("1. Add a Trip");
+            System.out.println("2. View All Trips");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    
+                    System.out.print("Enter Trip Name: ");
+                    scanner.nextLine(); 
+                    String tripName = scanner.nextLine();
+
+                    System.out.print("Enter Distance (km): ");
+                    double distance = scanner.nextDouble();
+
+                    System.out.print("Enter Fuel Used (liters): ");
+                    double fuelUsed = scanner.nextDouble();
+
+                    System.out.print("Enter Fuel Price per Liter: ");
+                    double fuelPrice = scanner.nextDouble();
+
+                    
+                    trips.add(new Trip(tripName, distance, fuelUsed, fuelPrice));
+                    System.out.println("Trip added successfully!\n");
+                    break;
+
+                case 2:
+                    
+                    if (trips.isEmpty()) {
+                        System.out.println("No trips recorded yet.\n");
+                    } else {
+                        for (Trip trip : trips) {
+                            System.out.println(trip);
+                        }
+                    }
+                    break;
+
+                case 3:
+                
+                    System.out.println("Exiting the application. Goodbye!");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid option. Please try again.\n");
+            }
+        }
+    }
+}
